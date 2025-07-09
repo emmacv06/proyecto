@@ -32,11 +32,19 @@ public class Cabina {
         return false;
     }
 
-    public void mostrarHorarios() {
+    /*public void mostrarHorarios() {
         System.out.println("Cabina " + numero + " - Horarios:");
         for (int i = 0; i < horarios.length; i++) {
             System.out.println((i + 9) + ":00 - " + horarios[i]);
         }
+    }*/
+    public void mostrarHorarios() {
+    StringBuilder mensaje = new StringBuilder();
+    mensaje.append("Cabina ").append(numero).append(" - Horarios:\n");
+    for (int i = 0; i < horarios.length; i++) {
+        mensaje.append((i + 9)).append(":00 - ").append(horarios[i]).append("\n");
+    }
+    JOptionPane.showMessageDialog(null, mensaje.toString());
     }
 
     
