@@ -18,14 +18,17 @@ public class Parqueo {
     int[][] parqueo2 = new int[5][5];
     int[][] parqueo3 = new int[5][5];
 
-    public void verParque() {
-        int plantas = Integer.parseInt(JOptionPane.showInputDialog("Que planta desea visualizar? \nPara la primera planta seleccioneel 1 \nPara la segunda el 2 \nPara la tercera el 3"));
+    public void verParqueo() {
+        int plantas = Integer.parseInt(JOptionPane.showInputDialog("Que planta desea visualizar? \n"+
+                "Para la primera planta seleccione el 1 \n"+
+                "Para la segunda el 2 \n"+
+                "Para la tercera el 3"));
         switch (plantas) {
             case 1:
                 String estado = "Parqueo:\n";
                 for (int i = 0; i < parqueo1.length; i++) {
                     for (int j = 0; j < parqueo1[0].length; j++) {
-                        estado += parqueo1[i][j] == 0 ? "[D]" : "[O]";
+                        estado += parqueo1[i][j] == 0 ? "[ L ]" : "[ O ]";
                     }
                     estado += "\n";
                 }
@@ -35,7 +38,7 @@ public class Parqueo {
                 String estado2 = "Parqueo:\n";
                 for (int i = 0; i < parqueo2.length; i++) {
                     for (int j = 0; j < parqueo2[0].length; j++) {
-                        estado2 += parqueo2[i][j] == 0 ? "[D]" : "[O]";
+                        estado2 += parqueo2[i][j] == 0 ? "[ L ]" : "[ O ]";
                     }
                     estado2 += "\n";
                 }
@@ -45,7 +48,7 @@ public class Parqueo {
                 String estado3 = "Parqueo:\n";
                 for (int i = 0; i < parqueo3.length; i++) {
                     for (int j = 0; j < parqueo3[0].length; j++) {
-                        estado3 += parqueo3[i][j] == 0 ? "[D]" : "[O]";
+                        estado3 += parqueo3[i][j] == 0 ? "[ L ]" : "[ O ]";
                     }
                     estado3 += "\n";
                 }
@@ -58,7 +61,10 @@ public class Parqueo {
     }
 
     public void reservarEspacio(int idSocio, String nombre) {
-        IngresoPlanta = Integer.parseInt(JOptionPane.showInputDialog("Ingrese en que planta desea registrar su espacio: \nPara la primera ingrese 1 \n Para la segunda ingrese 2 \nPara la tercera ingrese 3"));
+        IngresoPlanta = Integer.parseInt(JOptionPane.showInputDialog("Ingrese en que planta desea registrar su espacio: \n" +
+                "Para la primera ingrese 1 \n "+
+                "Para la segunda ingrese 2 \n"+
+                "Para la tercera ingrese 3"));
         switch (IngresoPlanta) {
             case 1:
                 for (int i = 0; i < parqueo1.length; i++) {

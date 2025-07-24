@@ -49,7 +49,7 @@ public class GestorAuditorio {
         }
     }
 
-    private void inscribirParticipante() {
+    public void inscribirParticipante() {
         String continuar = "si";
 
         while (continuar.toLowerCase().equals("si")) {
@@ -67,8 +67,15 @@ public class GestorAuditorio {
         }
     }
 
-    private void mostrarLista() {
+    public void mostrarLista() {
         String lista = auditorio.obtenerParticipantes();
         JOptionPane.showMessageDialog(null, lista);
+        
+        
+    }
+
+    @Override
+    public String toString() {
+        return "GestorAuditorio{" + "auditorio=" + auditorio + '}';
     }
 }

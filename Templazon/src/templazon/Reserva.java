@@ -22,7 +22,7 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva{" + "idSocio=" + idSocio + ", actividad=" + actividad + ", nombreSocio=" + nombreSocio + '}';
+        return " Reserva{ " + " idSocio " + idSocio + " , actividad " + actividad + ", nombre del Socio " + nombreSocio + '}'+ "";
     }
 
 }

@@ -5,7 +5,6 @@
 package templazon;
 
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
 
 /**
  *
@@ -16,31 +15,33 @@ public class SistemaGimnasio {
     SalaDePesas registro1 = new SalaDePesas();
     Socio[] socios = {
         new Socio(0, "Hector", true),
-        new Socio(1, "Santi", false),
+        new Socio(1, "Santi", true),
         new Socio(2, "Emanuel", true),
         new Socio(3, "Ariel", true)
-
     };
-    ArrayList<Reserva> reservas = new ArrayList<>();
+
+    Reserva[] reservas = new Reserva[100]; // arreglo tradicional
+    int totalReservas = 0; // contador de reservas
+
     Parqueo parqueo = new Parqueo();
     int auditorio = 0;
     final int MAX_AUDITORIO = 50;
+    
+    GestorAuditorio Reserva1= new GestorAuditorio();
 
     public void menuPrincipal() {
+        int opcionReserva;
         int opcion;
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(
                     "Menú Principal\n"
                     + "1. Reservar clase/parqueo\n"
                     + "2. Reserva por hora de cabina\n"
-                    + "3. Ver espacios del parqueo\n"
-                    + "4. Control de sala de pesas\n"
-                    + "5. Control de auditorio\n"
-                    + "6. Liberar reserva\n"
-                    + "7. Ver reservas parqueo y clase\n"
-                    + "8. Ver reservas cabina\n"
-                    + "9. Auditorio\n"
-                    + "10. Salir"
+                    + "3. Control de sala de pesas\n"
+                    + "4. Registrar en auditorio\n"
+                    + "5. Liberar reserva\n"
+                    + "6. Ver reservas\n"
+                    + "7. Salir"
             ));
 
             switch (opcion) {
@@ -50,30 +51,48 @@ public class SistemaGimnasio {
                 case 2:
                     ReservarHora(opcion);
                     break;
+
                 case 3:
-                    parqueo.verParque();
-                    break;
-                case 4:
                     registro1.registro();
                     break;
-                case 5:
-                    controlAuditorio();
+                case 4:
+                    Reserva1.inscribirParticipante();
                     break;
-                case 6:
+                case 5:
                     liberarReserva();
                     break;
+                case 6:
+                    opcionReserva=Integer.parseInt(JOptionPane.showInputDialog("Seleccione el area la cual desea ver el registro \n"+
+                            "1.Ver parqueo \n"+
+                            "2.Ver clases\n"+
+                            "3.Ver Cabina\n"+
+                            "4.Ver Auditorio"));
+                    switch (opcionReserva) {
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Ha seleccionado la opcion de visualizar el parqueo");
+                            parqueo.verParqueo();
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Ha seleccionado la opcion de visualizar las clases");
+                            verReservas();
+                            break;
+                        
+                        case 3:
+                            JOptionPane.showMessageDialog(null, "Ha seleccionado la opcion de visualizar las cabinas");
+                            ReservarHora(opcion);
+                        case 4:
+                            JOptionPane.showMessageDialog(null, "Ha seleccionado la opcion de visualizar el Auditorio");
+                            Reserva1.mostrarLista();
+                            break;
+                        default:
+                            throw new AssertionError();
+                        
+                    }
+                    break;      
                 case 7:
-                    verReservas();
-                    break;
-                case 8:
-                    ReservarHora(opcion);
-                    break;
-                case 9:
-                    iniciar();
-                    break;
-                case 10:
                     JOptionPane.showMessageDialog(null, "Gracias por usar el sistema.");
-                default:;
+                    break;
+                default:
                     JOptionPane.showMessageDialog(null, "Opción inválida");
             }
         } while (opcion != 7);
@@ -93,8 +112,13 @@ public class SistemaGimnasio {
         if (act.equalsIgnoreCase("clase")) {
             JOptionPane.showMessageDialog(null, "Reserva realizada");
         }
-        reservas.add(new Reserva(id, act, socios[id].nombre));
-        JOptionPane.showMessageDialog(null, "Reserva realizada");
+
+        if (totalReservas < reservas.length) {
+            reservas[totalReservas++] = new Reserva(id, act, socios[id].nombre);
+            JOptionPane.showMessageDialog(null, "Reserva realizada");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pueden agregar más reservas");
+        }
     }
 
     void controlAuditorio() {
@@ -112,14 +136,20 @@ public class SistemaGimnasio {
 
     void liberarReserva() {
         int id = Integer.parseInt(JOptionPane.showInputDialog("ID del socio para liberar:"));
-        reservas.removeIf(r -> r.idSocio == id);
+        int j = 0;
+        for (int i = 0; i < totalReservas; i++) {
+            if (reservas[i].idSocio != id) {
+                reservas[j++] = reservas[i];
+            }
+        }
+        totalReservas = j;
         JOptionPane.showMessageDialog(null, "Reservas liberadas para ID " + id);
     }
 
     void verReservas() {
         StringBuilder lista = new StringBuilder("Reservas:\n");
-        for (Reserva r : reservas) {
-            lista.append(r.toString()).append("\n");
+        for (int i = 0; i < totalReservas; i++) {
+            lista.append(reservas[i].toString()).append("\n");
         }
         JOptionPane.showMessageDialog(null, lista.toString());
     }
@@ -129,11 +159,9 @@ public class SistemaGimnasio {
     void ReservarHora(int opcion) {
         String continuar = "1";
 
-        System.out.print(opcion);
         if (opcion == 2) {
             while (continuar.equals("1")) {
-
-                String horaTexto = JOptionPane.showInputDialog("que hora reservas?");
+                String horaTexto = JOptionPane.showInputDialog("¿Qué hora reservas?");
                 int hora = Integer.parseInt(horaTexto);
                 c1.reservarHora(hora, "ID001");
                 c1.mostrarHorarios();
@@ -142,7 +170,6 @@ public class SistemaGimnasio {
             }
 
         } else {
-
             c1.mostrarHorarios();
         }
     }
@@ -152,6 +179,4 @@ public class SistemaGimnasio {
         auditorio1.iniciar();
         JOptionPane.showMessageDialog(null, auditorio1.toString());
     }
-
-    }
-
+}

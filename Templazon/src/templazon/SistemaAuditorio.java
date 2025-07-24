@@ -13,5 +13,12 @@ public class SistemaAuditorio {
     public void iniciar() {
         GestorAuditorio gestor = new GestorAuditorio();
         gestor.mostrarMenu();
+        
+        
+    }
+
+    @Override
+    public String toString() {
+        return "Gracias por su visita!";
     }
 }
